@@ -4,9 +4,9 @@
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A government's budget is in <em>deficit</em> when it's expenditure exceeds its tax revenue. Since governments tend to meet this shortfall through a process described as <em>borrowing</em>, deficits add to the government debt. The UK government is in an almost continual state of budget deficit, with roughly 85% of the post-WWII period being characterised by deficits. This means that UK government debt is continually increasing.</p>
-<p>But is this necessarily bad? Is there a sense in which increasing debt is <em>sustainable</em>? Well, if the size of the UK economy is also increasing the size of the debt relative to the economy may not necessarily be increasing and it is this measure that is usually taken to be more important than the absolute size of the debt.</p>
-<p>So here I'll try to figure out how a budget deficit interacts with economic growth to produce an impact on government debt. First I'll develop some simple mathematical descriptions of each of the components (economic growth, debt, etc.) and then we'll just simulate some simple scenarios in Python. We'll assume a constant rate of economic growth and a constant rate of deficit spending.</p>
+<p>A government's budget is in <em>deficit</em> when its expenditure exceeds its tax revenue. Since governments tend to meet this shortfall through a process described as <em>borrowing</em>, deficits add to a government's debt. The UK government is in an almost continual state of budget deficit, with roughly 85% of the post-WWII period being characterised by deficits. This means that UK government debt is continually increasing.</p>
+<p>Is this necessarily bad? Is there a sense in which increasing debt is <em>sustainable</em>? Well, if the size of the UK economy is also increasing then the size of the debt <em>relative to the economy</em> may not necessarily be increasing. It is this measure that is usually taken to be more important than the <em>absolute</em> size of the debt.</p>
+<p>So here I'll try to figure out how a budget deficit interacts with economic growth to produce an impact on government debt. First I'll develop some simple mathematical descriptions of each of the components (economic growth, debt, etc.) and then produce some simple example scenarios in Python. We'll assume a constant rate of economic growth and a constant rate of deficit spending.</p>
 </div>
 </div>
 </div>
@@ -15,7 +15,7 @@
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Economic-growth">Economic growth<a class="anchor-link" href="#Economic-growth">&#182;</a></h3>
+<h2 id="Economic-growth">Economic growth<a class="anchor-link" href="#Economic-growth">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -25,11 +25,11 @@
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The size of the economy is usually described by the Gross Domestic Product (GDP) which basically the aggregate income of the economy in a particular time period (e.g. 1 year). I'll use the terms GDP and &quot;income&quot; interchangably as labels for the size of the economy. For the sake of simplicity, I'll assume GDP (national income) has a constant growth rate, that is:</p>
+<p>The size of the economy is usually described by the <em>Gross Domestic Product</em> (GDP) which basically represents the aggregate income of the economy during a particular time period (e.g. a quarter or a year). I'll use the terms GDP and &quot;income&quot; interchangably as labels for the size of the economy. For the sake of simplicity, I'll assume GDP (national income) has a constant growth rate, that is:</p>
 <p><span class="math">\[\frac {dI}{dt} = kI\]</span></p>
 <p>where <span class="math">\(I\)</span> is the national income and <span class="math">\(k\)</span> is the growth rate constant. Integrating this gives a simple exponential function:</p>
 <p><span class="math">\[ I_t = I_0 e^{kt}\]</span></p>
-<p>with <span class="math">\(I_t\)</span> as the national income at time <span class="math">\(t\)</span>, <span class="math">\(I_0\)</span> the national income at the start. So the economy simply grows at a constant, compounding, rate through time.</p>
+<p>with <span class="math">\(I_t\)</span> as the national income at time <span class="math">\(t\)</span> and <span class="math">\(I_0\)</span> the national income at the start of whatever time period is under consideration. So the economy simply grows at a constant, compounding, rate through time.</p>
 <p>It should be noted that, since this is formulated as an exponential function using the base <span class="math">\(e\)</span>, the growth rate constant is not the same as the more usual type of growth rate expressed as a percentage (e.g. 3%) or decimal fraction (e.g. 0.03). It is, instead, equal to <span class="math">\(ln(1+r)\)</span>, where <span class="math">\(r\)</span> is the growth rate expressed as a decimal fraction. So a growth rate of 3% would be represented by a rate constant of <span class="math">\(ln(1 + 0.03) = 0.02955880...\)</span>.</p>
 </div>
 </div>
@@ -39,7 +39,7 @@
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Change-in-debt">Change in debt<a class="anchor-link" href="#Change-in-debt">&#182;</a></h3>
+<h2 id="Change-in-debt">Change in debt<a class="anchor-link" href="#Change-in-debt">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -49,11 +49,11 @@
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>So we have an expression describing how the economy grows through time. Now we need to understand how the debt changes through time. As we stated above, we assume that a government budget deficit adds to the government debt on a pound-for-pound basis, which implies that the government &quot;borrows&quot; when it has a deficit. If we describe the deficit relative to GDP as, say, a decimal fraction, and label it <span class="math">\(b\)</span>, then we can say that the debt (<span class="math">\(D\)</span>) grows as:</p>
+<p>So we have an expression describing how the economy grows through time. Now we need to understand how the debt changes through time. As we stated above, we assume that a government budget deficit adds to the government debt on a pound-for-pound basis, which implies that the government &quot;borrows&quot; when it has a deficit (it could, conceivably, just create money outright). If we describe the deficit relative to GDP as, say, a decimal fraction, and label it <span class="math">\(b\)</span>, then we can say that the debt (<span class="math">\(D\)</span>) grows as:</p>
 <p><span class="math">\[ \frac {dD}{dt} = bI_t\]</span></p>
 <p>This simply states that the debt added in any given time period is equal to the deficit over that period (which is a fraction (<span class="math">\(b\)</span>) of GDP (<span class="math">\(I\)</span>)). If we integrate this, we get an expression for the variation in debt through time:</p>
 <p><span class="math">\[ D_t = \frac {b}{k}I_t + C\]</span></p>
-<p>Now we need to solve for the integration constant, <span class="math">\(C\)</span>. Well, when <span class="math">\(t = 0\)</span>, <span class="math">\(D = D_0\)</span> and <span class="math">\(I = I_0\)</span>, so we can assert that:</p>
+<p>where <span class="math">\(C\)</span> is the constant of integration. To solve for <span class="math">\(C\)</span> we can say that when <span class="math">\(t = 0\)</span>, <span class="math">\(D_t = D_0\)</span> and <span class="math">\(I_t = I_0\)</span>, and so we can assert that:</p>
 <p><span class="math">\[ D_0 = \frac {b}{k}I_0 + C\]</span></p>
 <p>and therefore:</p>
 <p><span class="math">\[ C = D_0 - \frac {b}{k}I_o\]</span></p>
@@ -61,6 +61,7 @@
 <p><span class="math">\[ D_t = \frac {b}{k}I_t + D_0 - \frac {b}{k}I_o\]</span></p>
 <p>or, alternatively:</p>
 <p><span class="math">\[ D_t = D_0 + \frac {I_o b}{k} (e^{kt} - 1)\]</span></p>
+<p>This expression shows what is intuitively obvious: that the debt at time <span class="math">\(t\)</span> is dependent on the current debt (<span class="math">\(D_0\)</span>) plus the additional debt incurred through time (second term).</p>
 </div>
 </div>
 </div>
@@ -69,7 +70,7 @@
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-debt-ratio">The debt ratio<a class="anchor-link" href="#The-debt-ratio">&#182;</a></h3>
+<h2 id="The-debt-ratio">The debt ratio<a class="anchor-link" href="#The-debt-ratio">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -79,27 +80,24 @@
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>So we have expressions for how the economy grows and how the government debt changes assuming constant economic growth and deficit rates. Now we can combine them and produce an expression for how the debt ratio varies with time.</p>
-<p>We'll call the debt ratio <span class="math">\(D_{GDP}\)</span>, and given the above discussion we can say:</p>
-<p><span class="math">\[ D_{GDP} = \frac {D_t}{I_t}\]</span></p>
-<p>Using the first definition for <span class="math">\(D\)</span> described above we get:</p>
-<p><span class="math">\[ D_{GDP} = \frac {\frac {b}{k}I_t + D_0 - \frac {b}{k}I_o}{I_t}\]</span></p>
+<p>So we have expressions for how the economy grows and how the government debt changes assuming constant economic growth and deficit rates. Now we can combine them and produce an expression for how the debt ratio - that is the debt <em>relative to GDP</em> - varies with time.</p>
+<p>We'll call the debt ratio <span class="math">\(D^{R}\)</span>, and given the above discussion we can say:</p>
+<p><span class="math">\[ D^{R}_{t} = \frac {D_t}{I_t}\]</span></p>
+<p>Using the first definition for <span class="math">\(D_t\)</span> described above we get:</p>
+<p><span class="math">\[ D^{R}_{t} = \frac {\frac {b}{k}I_t + D_0 - \frac {b}{k}I_o}{I_t}\]</span></p>
 <p>which, on separating the denominator among the numerator terms and cancelling, can be rearranged to:</p>
-<p><span class="math">\[ D_{GDP} = \frac {b}{k} + \frac {D_0}{I_t} - \frac {b}{k}\frac{I_o}{I_t}\]</span></p>
+<p><span class="math">\[ D^{R}_{t} = \frac {b}{k} + \frac {D_0}{I_t} - \frac {b}{k}\frac{I_o}{I_t}\]</span></p>
 <p>and, since <span class="math">\(\frac {1}{I_t} = \frac {1}{I_0} e^{-kt}\)</span>, simplified to:</p>
-<p><span class="math">\[ D_{GDP} = \frac {b}{k} + (\frac {D_0}{I_0} - \frac {b}{k})e^{-kt}\]</span></p>
-<p>So this expression tells us that the debt ratio at any time <span class="math">\(t\)</span> depends on the ratio of the deficit rate (<span class="math">\(b\)</span>) to the growth rate (<span class="math">\(k\)</span>) and some other term involving an exponential decay function. What we can immediately say about the second term on the right-hand side is that the exponential multiplicand will tend to zero as <span class="math">\(t\)</span> tends to infinity. Therefore the entire second term will tend to zero and the debt ratio will converge to the ratio <span class="math">\(\frac {b}{k}\)</span>. So for any given deficit (relative to GDP) and growth rates, there is an equilibrium debt ratio that will approached that is entirely determined by those rates. The second term in the equation can now be seen to describe the transition from the starting debt ratio (<span class="math">\(\frac {D_0}{I_0}\)</span>, which appears in the second term) to the equilibrium ratio.</p>
-<p>So, whether or not the debt ratio is increasing or decreasing simply depends on the target debt ratio (determined by <span class="math">\(b\)</span> and <span class="math">\(k\)</span>) and the current debt ratio. This can be seen by differentiating the expression above:</p>
-<p><span class="math">\[ \frac {dD_{GDP}}{dt} = (b - \frac {k D_0}{I_0})e^{-kt}\]</span></p>
-<p>This rate of of change will be positive (increasing) or negative (decreasing) depending on the value of the coefficient - the term inside the parentheses <span class="math">\(b - \frac {k D_0}{I_0}\)</span>. Specifically, if:</p>
-<p><span class="math">\[b &gt; \frac {k D_0}{I_0}\]</span></p>
-<p>then the term is positive and the debt ratio will be increasing, whereas when:</p>
-<p><span class="math">\[b &lt; \frac {k D_0}{I_0}\]</span></p>
-<p>the term is negative and the debt ratio will be decreasing. These expressions can be rearranged slightly to make it more clear what is going on. The debt ratio will increasing when:</p>
-<p><span class="math">\[\frac {b}{k} &gt; \frac {D_0}{I_0}\]</span></p>
-<p>and decreasing when:</p>
-<p><span class="math">\[\frac {b}{k} &lt; \frac {D_0}{I_0}\]</span></p>
-<p>In other words, the target debt ratio relative to the current debt ratio. Clearly the rate of change of the debt ratio will be zero when:</p>
+<p><span class="math">\[ D^{R}_{t} = \frac {b}{k} + (\frac {D_0}{I_0} - \frac {b}{k})e^{-kt}\]</span></p>
+<p>So this expression tells us that the debt ratio at any time <span class="math">\(t\)</span> depends on the ratio of the deficit rate (<span class="math">\(b\)</span>) to the growth rate (<span class="math">\(k\)</span>) and some other term involving an exponential decay function. What we can immediately say about the second term on the right-hand side is that the exponential multiplicand will tend to zero as <span class="math">\(t\)</span> tends to infinity. Therefore the entire second term will tend to zero and the debt ratio will converge to the ratio <span class="math">\(\frac {b}{k}\)</span>. So for any given deficit and growth rates, there is a &quot;target&quot; debt ratio that will be approached that is entirely determined by those respective rates. What the second term in the equation describes is the transition from the starting debt ratio (<span class="math">\(\frac {D_0}{I_0}\)</span>) to the target ratio.</p>
+<p>So, whether or not the debt ratio is increasing or decreasing simply depends on the target debt ratio (<span class="math">\(\frac {b}{k}\)</span>) and the current debt ratio (<span class="math">\(\frac {D_0}{I_0}\)</span>). This can be seen by differentiating the expression above:</p>
+<p><span class="math">\[ \frac {dD^{R}}{dt} = -(\frac {D_0}{I_0} - \frac {b}{k})ke^{-kt}\]</span></p>
+<p>This rate of of change will be positive (increasing) or negative (decreasing) depending on the value of the first coefficient - the term inside the parentheses. Specifically, if:</p>
+<p><span class="math">\[\frac {D_0}{I_0} &gt; \frac {b}{k}\]</span></p>
+<p>then the term in parentheses is positive, the derivative of the debt ratio (<span class="math">\(\frac {dD^{R}}{dt}\)</span>) will be negative (by virtue of the leading minus sign) and therefore the debt ratio will be decreasing. Alternatively, when:</p>
+<p><span class="math">\[\frac {D_0}{I_0} &lt; \frac {b}{k}\]</span></p>
+<p>then the term in parentheses is negative, the derivative of the debt ratio will be positive, and the debt ratio will therefore be increasing. In plain language, when the current debt ratio (<span class="math">\(\frac {D_0}{I_0}\)</span>) is bigger than the target debt ratio implied by the deficit (<span class="math">\(b\)</span>) and growth rates (<span class="math">\(k\)</span>) then the debt ratio will be falling, and vice versa.</p>
+<p>Clearly the rate of change of the debt ratio will be zero when:</p>
 <p><span class="math">\[\frac {b}{k} = \frac {D_0}{I_0}\]</span></p>
 <p>which shows that <span class="math">\(\frac {b}{k}\)</span> is the equilibrium, or steady-state, ratio.</p>
 </div>
@@ -110,7 +108,7 @@
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Some-simulations">Some simulations<a class="anchor-link" href="#Some-simulations">&#182;</a></h3>
+<h2 id="Some-simulations">Some simulations<a class="anchor-link" href="#Some-simulations">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -137,7 +135,7 @@
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[8]:
+In&nbsp;[18]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -163,7 +161,7 @@ In&nbsp;[8]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[9]:
+In&nbsp;[19]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -174,16 +172,18 @@ In&nbsp;[9]:
     
     <span class="c"># Initialize a list of timestep indices, e.g. 0, 1, 2, 3,...</span>
     <span class="c"># This will be used to solve each of the equations through this number of timesteps</span>
-    <span class="c"># Since we&#39;re using the numpy library we can simply pass a vector of timesteps into </span>
+    <span class="c"># Since we&#39;re using the numpy library we can simply pass this vector of timesteps into </span>
     <span class="c"># the equations and get a vector of solutions</span>
     <span class="n">time_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">time_steps</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">time_steps</span><span class="p">)</span>
     
-    <span class="c"># Calculate incomes (i.e. GDP with growth)</span>
+    <span class="c"># Calculate incomes (i.e. GDP with growth) across all timesteps</span>
     <span class="n">income</span> <span class="o">=</span> <span class="n">start_income</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">growth_rate_constant</span> <span class="o">*</span> <span class="n">time_vector</span><span class="p">)</span>
-    <span class="c"># Calculate debt growth</span>
+    
+    <span class="c"># Calculate debt across all timesteps</span>
     <span class="n">debt</span>   <span class="o">=</span> <span class="n">start_debt</span> <span class="o">+</span> <span class="p">(</span><span class="n">deficit_rate</span> <span class="o">*</span> <span class="n">start_income</span> <span class="o">/</span> <span class="n">growth_rate_constant</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">growth_rate_constant</span> <span class="o">*</span> <span class="n">time_vector</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="c"># Calculate the debt ratio</span>
+    <span class="c"># Calculate the debt ratio across all timesteps</span>
+    <span class="c"># We could just divide the debt and income variables at this stage but lets use the elegant form!</span>
     <span class="n">debt_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">deficit_rate</span> <span class="o">/</span> <span class="n">growth_rate_constant</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="n">start_debt</span> <span class="o">/</span> <span class="n">start_income</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">deficit_rate</span> <span class="o">/</span> <span class="n">growth_rate_constant</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">growth_rate_constant</span> <span class="o">*</span> <span class="n">time_vector</span><span class="p">))</span>
 
     <span class="c"># Now plot all</span>
@@ -225,7 +225,7 @@ In&nbsp;[9]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[10]:
+In&nbsp;[20]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -535,7 +535,7 @@ sfP/AXM7jl5z3xbJAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>So we solved the equations for 200 timesteps and started with a GDP of £500 and government debt of £500. The debt ratio at the outset was therefore £500/£500 = 1. In other words the value of the government debt was 1 x annual national income. This is indicated in the debt ratio plot in that the line is initially at 1. We specified a growth rate of 2% and a constant deficit spend equal to 1% of GDP. We know from the maths above that the debt ratio should therefore converge to 0.01/0.02 = 0.5. And as can be seen from the debt ratio plot the line approaches a value of 0.5 as time proceeds. So in this case, a constant deficit of 1% of GDP actually produces a decreasing debt ratio if the growth rate is 2% and the debt ratio at the start is higher than the equlibrium ratio of 0.5.</p>
+<p>So we solved the equations for 200 timesteps and started with a GDP of £500 and government debt of £500. The debt ratio at the outset was therefore £500/£500 = 1. In other words the value of the government debt was 1 x annual national income. This is indicated in the debt ratio plot in that the line is initially at a value of 1. We specified a growth rate of 2% and a constant deficit spend equal to 1% of GDP. We know from the maths above that the debt ratio should therefore converge to 0.01/0.02 = 0.5, i.e. the value of the government debt should approach 50% of GDP. And as can be seen from the debt ratio plot the line approaches a value of 0.5 as time proceeds. So in this case, a constant deficit of 1% of GDP actually produces a decreasing debt ratio if the growth rate is 2% and the debt ratio at the start is higher than the equlibrium ratio of 0.5.</p>
 <p>Let's try another with the same growth and deficit rates, but a different starting point.</p>
 </div>
 </div>
@@ -543,7 +543,7 @@ sfP/AXM7jl5z3xbJAAAAAElFTkSuQmCC
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[11]:
+In&nbsp;[21]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -860,7 +860,7 @@ juPEjisXx3EcJ3ZcuTiO4zix48rFcRzHiZ3/D9YFVS0nXCpRAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>So in this case, the same debt ratio is eventually realised, but since the intial debt ratio was zero, the debt ratio increased to the target value.</p>
+<p>So in this case, the same debt ratio is eventually realised, but since the intial debt ratio was zero (we started with no debt), the debt ratio <em>increased</em> to the target value.</p>
 <p>Let's try a different target ratio.</p>
 </div>
 </div>
@@ -868,7 +868,7 @@ juPEjisXx3EcJ3ZcuTiO4zix48rFcRzHiZ3/D9YFVS0nXCpRAAAAAElFTkSuQmCC
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[12]:
+In&nbsp;[22]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -1200,7 +1200,23 @@ uTiO4zix487FcRzHiR13Lo7jOE7suHNxHMdxYuf/Axg5pjOUi8qPAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A continual deficit is perfectly consistent with a stable debt ratio, depending on the growth rate of the economy. The relative sizes of the deficit and growth rate determine an equilibrium size for the government debt relative to the economy. Whether or not the debt ratio increases or decreases depends on the current size of the debt ratio relative to the implied target size.</p>
+<p>A continual deficit is perfectly consistent with a stable or even decreasing debt ratio, depending on the growth rate of the economy. The relative size of the deficit and growth rates determine a target, equilibrium size for the government debt relative to the economy. Whether or not the debt ratio increases or decreases at any given time depends on the current size of the debt ratio relative to the implied target size. When someone complains that the deficit is unsustainable, they need to explain what that means. Do they have a problem with the existing debt level, or the implied target level, or the fact that the debt ratio is increasing or decreasing?</p>
+<p>These experiments show that at reasonably realistic levels of economic growth and deficit spending (both in the region of a few percent) the target debt ratio is only realised after many decades. The target ratio is therefore not likley to be realised in practice given that constant rates of economic growth and deficit spending are not likely to persist for decades. But the logic is useful in understanding what impact current or projected growth and deficit rates might have on the debt. At the very least, the equations described here can show whether the debt ratio will increase or decrease at current or forecasted growth and deficit rates. In the case that longer-term, mean growth and deficit rates can be established then the long-term steady-state debt ratio can be identified.</p>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
